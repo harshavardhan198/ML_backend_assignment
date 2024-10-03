@@ -9,8 +9,10 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel, RunnablePassthrough
 from langchain_groq import ChatGroq
+import os
 dir = '/'
 embeddings = HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
+groq_api_key = os.getenv('GROQ_API_KEY')
 
 #Loading the documents
 def load_docs(dir):
@@ -25,10 +27,9 @@ def split_docs(documents,chunk_size=1000,chunk_overlap=100):
     return docs
 
 doc=split_docs('/p70-178.pdf')
-print(len(doc))
 
 save_to=Chroma.from_documents(documents=doc,embedding=embeddings,persist_directory='./ai-toolkit')
-print('saved')
+
 
 query="What is job "
 
@@ -39,7 +40,7 @@ print(results[0].page_content)
 
 embeddings = SentenceTransformerEmbeddings(model_name='all-MiniLM-L6-v2')
 
-llm=ChatGroq(groq_api_key="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", model_name='llama3-8b-8192')
+llm=ChatGroq(groq_api_key=groq_api_key, model_name='llama3-8b-8192')
 
 load_db=Chroma(persist_directory='./ai-toolkit',embedding_function=embeddings)
 
