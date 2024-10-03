@@ -4,15 +4,16 @@ from typing import Union, Any
 from jose import jwt
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
+import os
+from dotenv import load_dotenv
+
+_ = load_dotenv()
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 30  # 30 minutes
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
 ALGORITHM = "HS256"
-# JWT_SECRET_KEY = os.environ['JWT_SECRET_KEY']   # should be kept secret
-JWT_SECRET_KEY = "UIUIUIUI"
-# JWT_REFRESH_SECRET_KEY = os.environ['JWT_REFRESH_SECRET_KEY']    # should be kept secr
-JWT_REFRESH_SECRET_KEY = "UIUIUIUI8"
-
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+JWT_REFRESH_SECRET_KEY = os.getenv("JWT_REFRESH_SECRET_KEY")
 
 def create_access_token(subject: Union[str, Any], expires_delta: int = None) -> str:
     if expires_delta is not None:
