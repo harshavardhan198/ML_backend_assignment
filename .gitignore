@@ -1,4 +1,4 @@
-.env
-__pycache__/
+.env/
+__pycache__
 venv/
-ai-toolkit/
+ai-toolkit
